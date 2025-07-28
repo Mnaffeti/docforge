@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from cpp_doc_generator import CppDocumentationAgent, CppProjectAnalyzer
 
 def example_basic_usage():
-    """Example: Basic documentation generation without OpenAI"""
+    """Example: Basic documentation generation without Gemini"""
     print("=== Basic Usage Example ===")
     
     # Example project path (replace with actual project path)
@@ -32,7 +32,7 @@ def example_basic_usage():
     agent = CppDocumentationAgent(
         project_path=project_path,
         output_dir="./generated_docs",
-        use_openai=False  # Use template-based comment generation
+        use_gemini=False  # Use template-based comment generation
     )
     
     # Generate documentation
@@ -42,19 +42,19 @@ def example_basic_usage():
     except Exception as e:
         print(f"Error: {e}")
 
-def example_with_openai():
-    """Example: Documentation generation with OpenAI integration"""
-    print("=== OpenAI Integration Example ===")
+def example_with_gemini():
+    """Example: Documentation generation with Gemini integration"""
+    print("=== Gemini Integration Example ===")
     
     # Example project path
     project_path = r"C:\path\to\your\cpp\project"
     
-    # OpenAI API key (get from environment variable for security)
-    api_key = os.getenv('OPENAI_API_KEY')
+    # Gemini API key (get from environment variable for security)
+    api_key = os.getenv('GEMINI_API_KEY')
     
     if not api_key:
-        print("OpenAI API key not found in environment variable 'OPENAI_API_KEY'")
-        print("Set it with: set OPENAI_API_KEY=your_api_key_here")
+        print("Gemini API key not found in environment variable 'GEMINI_API_KEY'")
+        print("Set it with: set GEMINI_API_KEY=your_api_key_here")
         return
     
     if not Path(project_path).exists():
@@ -62,13 +62,16 @@ def example_with_openai():
         print("Replace with an actual C++ project path to test.")
         return
     
-    # Create documentation agent with OpenAI
+    # Create documentation agent with Gemini
     agent = CppDocumentationAgent(
         project_path=project_path,
         output_dir="./ai_generated_docs",
-        use_openai=True,
+        use_gemini=True,
         api_key=api_key
     )
+    
+    print("Note: Using Gemini free tier model (gemini-1.5-flash-8b)")
+    print("Free tier has daily quotas. If exceeded, will fall back to templates.")
     
     # Generate documentation
     try:
@@ -255,7 +258,7 @@ int main() {
     agent = CppDocumentationAgent(
         project_path=str(sample_dir),
         output_dir="./sample_documentation",
-        use_openai=False
+        use_gemini=False
     )
     
     try:
@@ -283,8 +286,8 @@ Basic usage (template-based comments):
 With custom output directory:
     python cpp_doc_generator.py /path/to/cpp/project -o /path/to/output
 
-With OpenAI integration (requires API key):
-    python cpp_doc_generator.py /path/to/cpp/project --openai --api-key YOUR_API_KEY
+With Gemini integration (requires API key):
+    python cpp_doc_generator.py /path/to/cpp/project --gemini --api-key YOUR_API_KEY
 
 Verbose output:
     python cpp_doc_generator.py /path/to/cpp/project -v
@@ -297,8 +300,8 @@ Python API Usage:
     agent = CppDocumentationAgent(
         project_path="/path/to/cpp/project",
         output_dir="./docs",
-        use_openai=True,
-        api_key="your-openai-api-key"
+        use_gemini=True,
+        api_key="your-gemini-api-key"
     )
     
     agent.generate_documentation()
@@ -314,7 +317,7 @@ Features:
 
 2. **Doxygen Comment Generation**
    - Template-based comments (default)
-   - AI-powered comments (with OpenAI API)
+   - AI-powered comments (with Gemini API)
    - Professional formatting
    - Parameter and return value documentation
 
@@ -351,7 +354,7 @@ Python packages (install with: pip install -r requirements.txt):
 - sphinx
 - sphinx-rtd-theme  
 - breathe
-- openai (optional, for AI comments)
+- google-generativeai (optional, for AI comments)
 
 External tools:
 - Doxygen (for API documentation)
@@ -365,7 +368,7 @@ def main():
     
     examples = {
         '1': ('Basic Usage (Template Comments)', example_basic_usage),
-        '2': ('OpenAI Integration', example_with_openai),
+        '2': ('Gemini Integration', example_with_gemini),
         '3': ('Project Analysis Only', example_project_analysis_only),
         '4': ('Sample Project Demo', example_sample_project),
         '5': ('Usage Instructions', print_usage_instructions),

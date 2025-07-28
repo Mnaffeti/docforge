@@ -7,7 +7,7 @@ A comprehensive Python tool that automatically analyzes C++ projects and generat
 - **Automatic Project Analysis**: Discovers all C++ source files, build configurations, and dependencies
 - **Intelligent Code Parsing**: Identifies classes, functions, namespaces, enums, and structs
 - **Doxygen Comment Generation**: Creates professional documentation comments with proper formatting
-- **AI-Powered Comments**: Optional OpenAI integration for intelligent comment generation
+- **AI-Powered Comments**: Optional Gemini integration for intelligent comment generation
 - **Sphinx Documentation**: Generates complete HTML documentation with professional theming
 - **Build System Integration**: Works with CMake, Make, and other build systems
 - **Cross-References**: Automatic linking between related code elements
@@ -27,8 +27,8 @@ pip install -r requirements.txt
   - macOS: `brew install doxygen`
 
 ### Optional Dependencies
-- **OpenAI API Key**: For AI-powered comment generation
-  - Set environment variable: `OPENAI_API_KEY=your_api_key_here`
+- **Gemini API Key**: For AI-powered comment generation
+  - Set environment variable: `GEMINI_API_KEY=your_api_key_here`
 
 ## 🔧 Installation
 
@@ -38,7 +38,7 @@ pip install -r requirements.txt
    pip install -r requirements.txt
    ```
 3. Install Doxygen (see requirements above)
-4. (Optional) Set up OpenAI API key for enhanced comment generation
+4. (Optional) Set up Gemini API key for enhanced comment generation
 
 ## 💻 Usage
 
@@ -54,9 +54,9 @@ python cpp_doc_generator.py /path/to/cpp/project
 python cpp_doc_generator.py /path/to/cpp/project -o /path/to/output
 ```
 
-#### With OpenAI Integration
+#### With Gemini Integration
 ```bash
-python cpp_doc_generator.py /path/to/cpp/project --openai --api-key YOUR_API_KEY
+python cpp_doc_generator.py /path/to/cpp/project --gemini --api-key YOUR_API_KEY
 ```
 
 #### Verbose Output
@@ -75,12 +75,12 @@ agent = CppDocumentationAgent(
     output_dir="./documentation"
 )
 
-# With OpenAI integration
+# With Gemini integration
 agent = CppDocumentationAgent(
     project_path="/path/to/cpp/project",
     output_dir="./documentation",
-    use_openai=True,
-    api_key="your-openai-api-key"
+    use_gemini=True,
+    api_key="your-gemini-api-key"
 )
 
 # Generate documentation
@@ -210,7 +210,7 @@ The tool automatically detects and documents:
 ### Doxygen Comment Generation
 
 - **Template-based**: Uses intelligent templates (default)
-- **AI-powered**: Uses OpenAI GPT models for natural language comments
+- **AI-powered**: Uses Google Gemini models for natural language comments
 - **Customizable**: Modify templates for project-specific conventions
 
 ### Sphinx Documentation
@@ -251,10 +251,12 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Install Doxygen and ensure it's in your PATH
 - On Windows, add Doxygen installation directory to PATH
 
-#### "OpenAI API Error"
+#### "Gemini API Error"
 - Verify your API key is correct
-- Check your OpenAI account has sufficient credits
-- Ensure you have access to the specified model (GPT-4/GPT-3.5)
+- Check your Google Cloud project has the Generative AI API enabled
+- Ensure you have sufficient quota for the Gemini model
+- The tool uses `gemini-1.5-flash-8b` model (free tier) - ensure it's available in your region
+- Free tier has daily quotas - if exceeded, comments will fall back to templates
 
 #### "Sphinx build failed"
 - Install all required Python packages: `pip install -r requirements.txt`

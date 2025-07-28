@@ -289,28 +289,31 @@ class CppProjectAnalyzer:
 class DoxygenCommentGenerator:
     """Generates Doxygen comments for C++ code elements"""
     
-    def __init__(self, use_openai: bool = False, api_key: str = None):
-        self.use_openai = use_openai
+    def __init__(self, use_gemini: bool = False, api_key: str = None, model_name: str = "gemini-1.5-flash-8b"):
+        self.use_gemini = use_gemini
         self.api_key = api_key
+        self.model_name = model_name
         
-        if use_openai and api_key:
+        if use_gemini and api_key:
             try:
-                import openai
-                openai.api_key = api_key
-                self.openai = openai
+                import google.generativeai as genai
+                genai.configure(api_key=api_key)
+                self.genai = genai
+                self.model = genai.GenerativeModel(model_name)
+                logger.info(f"Initialized Gemini model: {model_name}")
             except ImportError:
-                logger.warning("OpenAI package not available. Using template-based generation.")
-                self.use_openai = False
+                logger.warning("Google Generative AI package not available. Using template-based generation.")
+                self.use_gemini = False
     
     def generate_comment(self, element: CodeElement, context: str = "") -> str:
         """Generate Doxygen comment for a code element"""
-        if self.use_openai:
+        if self.use_gemini:
             return self._generate_ai_comment(element, context)
         else:
             return self._generate_template_comment(element)
     
     def _generate_ai_comment(self, element: CodeElement, context: str) -> str:
-        """Generate comment using OpenAI API"""
+        """Generate comment using Gemini API"""
         try:
             prompt = f"""
 Generate professional Doxygen comments for this C++ {element.type}:
@@ -322,19 +325,24 @@ File: {element.file_path}
 
 Include appropriate @brief, @param, @return, @throws tags and examples where relevant.
 Make the documentation clear, concise, and professional.
+Return only the Doxygen comment block starting with /** and ending with */.
 """
             
-            response = self.openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=500
-            )
+            # Add a small delay to be respectful of API rate limits
+            import time
+            time.sleep(0.5)
             
-            return response.choices[0].message.content.strip()
+            response = self.model.generate_content(prompt)
+            return response.text.strip()
             
         except Exception as e:
-            logger.warning(f"OpenAI API error: {e}. Falling back to template.")
+            error_msg = str(e)
+            if "429" in error_msg or "quota" in error_msg.lower():
+                logger.warning(f"Gemini API quota exceeded. Daily limit reached. Falling back to template generation.")
+            elif "404" in error_msg:
+                logger.warning(f"Gemini model '{self.model_name}' not found. Try 'gemini-1.5-flash-8b' for free tier. Falling back to template.")
+            else:
+                logger.warning(f"Gemini API error: {e}. Falling back to template.")
             return self._generate_template_comment(element)
     
     def _generate_template_comment(self, element: CodeElement) -> str:
@@ -1145,15 +1153,15 @@ WARN_IF_DOC_ERROR      = YES
 class CppDocumentationAgent:
     """Main documentation generation agent"""
     
-    def __init__(self, project_path: str, output_dir: str = None, use_openai: bool = False, api_key: str = None):
+    def __init__(self, project_path: str, output_dir: str = None, use_gemini: bool = False, api_key: str = None):
         self.project_path = Path(project_path)
         self.output_dir = Path(output_dir) if output_dir else self.project_path / "documentation"
-        self.use_openai = use_openai
+        self.use_gemini = use_gemini
         self.api_key = api_key
         
         # Initialize components
         self.analyzer = CppProjectAnalyzer(str(self.project_path))
-        self.comment_generator = DoxygenCommentGenerator(use_openai, api_key)
+        self.comment_generator = DoxygenCommentGenerator(use_gemini, api_key)
         
     def generate_documentation(self):
         """Generate complete project documentation"""
@@ -1405,9 +1413,9 @@ def main():
     )
     parser.add_argument('project_path', help='Path to the C++ project directory')
     parser.add_argument('-o', '--output', help='Output directory for documentation')
-    parser.add_argument('--openai', action='store_true', 
-                       help='Use OpenAI API for generating comments')
-    parser.add_argument('--api-key', help='OpenAI API key')
+    parser.add_argument('--gemini', action='store_true', 
+                       help='Use Gemini API for generating comments')
+    parser.add_argument('--api-key', help='Gemini API key')
     parser.add_argument('-v', '--verbose', action='store_true', 
                        help='Enable verbose logging')
     
@@ -1430,7 +1438,7 @@ def main():
     agent = CppDocumentationAgent(
         project_path=str(project_path),
         output_dir=args.output,
-        use_openai=args.openai,
+        use_gemini=args.gemini,
         api_key=args.api_key
     )
     

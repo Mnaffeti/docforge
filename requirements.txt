@@ -6,7 +6,7 @@ sphinx-rtd-theme>=1.0.0
 breathe>=4.34.0
 
 # Optional dependencies for enhanced functionality
-openai>=1.0.0  # For AI-powered comment generation
+google-generativeai>=0.3.0  # For AI-powered comment generation with Gemini
 matplotlib>=3.5.0  # For generating charts in documentation
 Pillow>=9.0.0  # For image processing in documentation
 
