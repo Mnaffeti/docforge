@@ -16,5 +16,3 @@ black>=22.0.0
 flake8>=4.0.0
 mypy>=0.991
 
-# Documentation building
-doxygen-python>=0.1.0  # Python wrapper for Doxygen (if available)

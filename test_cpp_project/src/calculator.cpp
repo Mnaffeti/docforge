@@ -4,6 +4,22 @@
 #include <sstream>
 #include <iomanip>
 
+/**
+ * @brief math namespace
+ * 
+ * Contains classes and functions related to math functionality.
+ * TODO: Add specific namespace purpose description
+ * 
+ * @since Version 1.0
+ */
+/**
+ * @brief math namespace
+ * 
+ * Contains classes and functions related to math functionality.
+ * TODO: Add specific namespace purpose description
+ * 
+ * @since Version 1.0
+ */
 namespace math {
 
     // BasicCalculator Implementation
@@ -51,6 +67,36 @@ namespace math {
         validateInput(b);
         
         if (std::abs(b) < constants::EPSILON) {
+/**
+ * @brief DivisionByZeroException function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return throw Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for DivisionByZeroException
+ */
+/**
+ * @brief DivisionByZeroException function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return throw Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for DivisionByZeroException
+ */
             throw DivisionByZeroException("Cannot divide by zero");
         }
         
@@ -90,6 +136,36 @@ namespace math {
 
     void BasicCalculator::validateInput(double value) {
         if (!isValidNumber(value)) {
+/**
+ * @brief InvalidInputException function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return throw Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for InvalidInputException
+ */
+/**
+ * @brief InvalidInputException function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return throw Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for InvalidInputException
+ */
             throw InvalidInputException("Invalid number provided", value);
         }
     }
@@ -186,6 +262,36 @@ namespace math {
     void ScientificCalculator::validatePositive(double value) {
         validateInput(value);
         if (value < 0) {
+/**
+ * @brief InvalidInputException function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return throw Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for InvalidInputException
+ */
+/**
+ * @brief InvalidInputException function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return throw Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for InvalidInputException
+ */
             throw InvalidInputException("Value must be positive", value);
         }
     }
@@ -242,20 +348,156 @@ namespace math {
     }
 
     // Utility functions
+/**
+ * @brief utils namespace
+ * 
+ * Contains classes and functions related to utils functionality.
+ * TODO: Add specific namespace purpose description
+ * 
+ * @since Version 1.0
+ */
+/**
+ * @brief utils namespace
+ * 
+ * Contains classes and functions related to utils functionality.
+ * TODO: Add specific namespace purpose description
+ * 
+ * @since Version 1.0
+ */
     namespace utils {
+/**
+ * @brief isInfinite function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return bool Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for isInfinite
+ */
+/**
+ * @brief isInfinite function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return bool Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for isInfinite
+ */
         bool isInfinite(double value) {
             return std::isinf(value);
         }
 
+/**
+ * @brief isNaN function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return bool Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for isNaN
+ */
+/**
+ * @brief isNaN function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return bool Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for isNaN
+ */
         bool isNaN(double value) {
             return std::isnan(value);
         }
 
+/**
+ * @brief roundToPrecision function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return double Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for roundToPrecision
+ */
+/**
+ * @brief roundToPrecision function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return double Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for roundToPrecision
+ */
         double roundToPrecision(double value, int precision) {
             double factor = std::pow(10.0, precision);
             return std::round(value * factor) / factor;
         }
 
+/**
+ * @brief formatNumber function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return string Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for formatNumber
+ */
+/**
+ * @brief formatNumber function
+ * 
+ * Detailed description of what this function does.
+ * TODO: Add specific functionality description
+ * 
+ * @param param_name Description of parameter
+ * 
+ * @return string Description of return value
+ * 
+ * @throws std::exception Description of when exceptions are thrown
+ * 
+ * @example
+ * // Usage example for formatNumber
+ */
         std::string formatNumber(double value, int precision) {
             std::ostringstream oss;
             oss << std::fixed << std::setprecision(precision) << value;

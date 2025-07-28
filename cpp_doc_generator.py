@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 C++ Project Documentation Generation Agent
 
@@ -509,7 +509,7 @@ intersphinx_mapping = {{
 }}
 '''
         
-        with open(self.docs_dir / "conf.py", 'w') as f:
+        with open(self.docs_dir / "conf.py", 'w', encoding='utf-8') as f:
             f.write(conf_content)
     
     def _generate_index_rst(self):
@@ -566,7 +566,7 @@ Indices and tables
 * :ref:`search`
 '''
         
-        with open(self.docs_dir / "index.rst", 'w') as f:
+        with open(self.docs_dir / "index.rst", 'w', encoding='utf-8') as f:
             f.write(index_content)
     
     def _generate_api_documentation(self):
@@ -585,7 +585,7 @@ This section contains the complete API reference for all classes, functions, and
    namespaces
 '''
         
-        with open(self.docs_dir / "api" / "index.rst", 'w') as f:
+        with open(self.docs_dir / "api" / "index.rst", 'w', encoding='utf-8') as f:
             f.write(api_index_content)
         
         # Classes documentation
@@ -621,7 +621,7 @@ This section documents all classes in the project.
 
 '''
         
-        with open(self.docs_dir / "api" / "classes.rst", 'w') as f:
+        with open(self.docs_dir / "api" / "classes.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_functions_rst(self):
@@ -648,7 +648,7 @@ This section documents all functions in the project.
 
 '''
         
-        with open(self.docs_dir / "api" / "functions.rst", 'w') as f:
+        with open(self.docs_dir / "api" / "functions.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_namespaces_rst(self):
@@ -670,7 +670,7 @@ This section documents all namespaces in the project.
 
 '''
         
-        with open(self.docs_dir / "api" / "namespaces.rst", 'w') as f:
+        with open(self.docs_dir / "api" / "namespaces.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_usage_documentation(self):
@@ -690,7 +690,7 @@ This section provides comprehensive usage instructions and examples.
    troubleshooting
 '''
         
-        with open(self.docs_dir / "usage" / "index.rst", 'w') as f:
+        with open(self.docs_dir / "usage" / "index.rst", 'w', encoding='utf-8') as f:
             f.write(usage_index_content)
         
         self._generate_installation_rst()
@@ -778,7 +778,7 @@ To verify the installation, run:
 
 '''
         
-        with open(self.docs_dir / "usage" / "installation.rst", 'w') as f:
+        with open(self.docs_dir / "usage" / "installation.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_quickstart_rst(self):
@@ -811,7 +811,7 @@ Next Steps
 
 '''
         
-        with open(self.docs_dir / "usage" / "quickstart.rst", 'w') as f:
+        with open(self.docs_dir / "usage" / "quickstart.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_examples_rst(self):
@@ -843,7 +843,7 @@ Example 2: Advanced Usage
 
 '''
         
-        with open(self.docs_dir / "usage" / "examples.rst", 'w') as f:
+        with open(self.docs_dir / "usage" / "examples.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_troubleshooting_rst(self):
@@ -883,7 +883,7 @@ If you're still having issues:
 
 '''
         
-        with open(self.docs_dir / "usage" / "troubleshooting.rst", 'w') as f:
+        with open(self.docs_dir / "usage" / "troubleshooting.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_developer_documentation(self):
@@ -902,7 +902,7 @@ This section provides information for developers who want to contribute to the p
    building_docs
 '''
         
-        with open(self.docs_dir / "developer" / "index.rst", 'w') as f:
+        with open(self.docs_dir / "developer" / "index.rst", 'w', encoding='utf-8') as f:
             f.write(dev_index_content)
         
         self._generate_architecture_rst()
@@ -957,7 +957,7 @@ TODO: Document design patterns used in the codebase
 
 '''
         
-        with open(self.docs_dir / "developer" / "architecture.rst", 'w') as f:
+        with open(self.docs_dir / "developer" / "architecture.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_contributing_rst(self):
@@ -1007,7 +1007,7 @@ When adding new features:
 
 '''
         
-        with open(self.docs_dir / "developer" / "contributing.rst", 'w') as f:
+        with open(self.docs_dir / "developer" / "contributing.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_building_docs_rst(self):
@@ -1079,7 +1079,7 @@ You can also use the provided script to build everything:
 
 '''
         
-        with open(self.docs_dir / "developer" / "building_docs.rst", 'w') as f:
+        with open(self.docs_dir / "developer" / "building_docs.rst", 'w', encoding='utf-8') as f:
             f.write(content)
     
     def _generate_doxyfile(self):
@@ -1139,7 +1139,7 @@ WARN_IF_UNDOCUMENTED   = YES
 WARN_IF_DOC_ERROR      = YES
 '''
         
-        with open(self.docs_dir / "Doxyfile", 'w') as f:
+        with open(self.docs_dir / "Doxyfile", 'w', encoding='utf-8') as f:
             f.write(doxyfile_content)
 
 class CppDocumentationAgent:
@@ -1280,7 +1280,7 @@ if __name__ == "__main__":
 '''
         
         script_path = self.output_dir / "build_docs.py"
-        with open(script_path, 'w') as f:
+        with open(script_path, 'w', encoding='utf-8') as f:
             f.write(build_script_content)
         
         # Make script executable on Unix-like systems
@@ -1356,25 +1356,25 @@ python build_docs.py
 
 ```
 docs/
-├── conf.py                 # Sphinx configuration
-├── index.rst              # Main documentation index
-├── Doxyfile               # Doxygen configuration
-├── api/                   # API reference
-│   ├── index.rst
-│   ├── classes.rst
-│   ├── functions.rst
-│   └── namespaces.rst
-├── usage/                 # User guide
-│   ├── index.rst
-│   ├── installation.rst
-│   ├── quickstart.rst
-│   ├── examples.rst
-│   └── troubleshooting.rst
-└── developer/             # Developer guide
-    ├── index.rst
-    ├── architecture.rst
-    ├── contributing.rst
-    └── building_docs.rst
+â”œâ”€â”€ conf.py                 # Sphinx configuration
+â”œâ”€â”€ index.rst              # Main documentation index
+â”œâ”€â”€ Doxyfile               # Doxygen configuration
+â”œâ”€â”€ api/                   # API reference
+â”‚   â”œâ”€â”€ index.rst
+â”‚   â”œâ”€â”€ classes.rst
+â”‚   â”œâ”€â”€ functions.rst
+â”‚   â””â”€â”€ namespaces.rst
+â”œâ”€â”€ usage/                 # User guide
+â”‚   â”œâ”€â”€ index.rst
+â”‚   â”œâ”€â”€ installation.rst
+â”‚   â”œâ”€â”€ quickstart.rst
+â”‚   â”œâ”€â”€ examples.rst
+â”‚   â””â”€â”€ troubleshooting.rst
+â””â”€â”€ developer/             # Developer guide
+    â”œâ”€â”€ index.rst
+    â”œâ”€â”€ architecture.rst
+    â”œâ”€â”€ contributing.rst
+    â””â”€â”€ building_docs.rst
 ```
 
 ## Next Steps
@@ -1393,7 +1393,7 @@ docs/
 '''
         
         report_path = self.output_dir / "PROJECT_DOCUMENTATION_REPORT.md"
-        with open(report_path, 'w') as f:
+        with open(report_path, 'w', encoding='utf-8') as f:
             f.write(report_content)
         
         logger.info(f"Project report generated: {report_path}")
@@ -1450,3 +1450,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
