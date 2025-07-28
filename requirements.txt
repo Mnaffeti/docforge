@@ -1,0 +1,20 @@
+# Python requirements for C++ Documentation Generator
+
+# Core dependencies
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.0.0
+breathe>=4.34.0
+
+# Optional dependencies for enhanced functionality
+openai>=1.0.0  # For AI-powered comment generation
+matplotlib>=3.5.0  # For generating charts in documentation
+Pillow>=9.0.0  # For image processing in documentation
+
+# Development dependencies
+pytest>=7.0.0
+black>=22.0.0
+flake8>=4.0.0
+mypy>=0.991
+
+# Documentation building
+doxygen-python>=0.1.0  # Python wrapper for Doxygen (if available)
