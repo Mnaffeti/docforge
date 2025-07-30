@@ -201,19 +201,69 @@ class CppProjectAnalyzer:
     
     def _extract_functions(self, content: str, file_path: Path, lines: List[str]):
         """Extract function definitions"""
-        # Function pattern (simplified)
-        func_pattern = r'(?:(?:inline|static|virtual|explicit|constexpr)\s+)*(\w+(?:\s*\*)*)\s+(\w+)\s*\([^)]*\)\s*(?:const)?\s*(?:override)?\s*[{;]'
+        # More precise function pattern that matches actual C++ function definitions
+        # This pattern looks for proper function signatures with return types
+        func_pattern = r'^(?:\s*)(?:(?:inline|static|virtual|explicit|constexpr|extern)\s+)*(?:(?:const|unsigned|signed|long|short)\s+)*([a-zA-Z_][a-zA-Z0-9_]*(?:\s*[*&]*\s*)*)\s+(?:([a-zA-Z_][a-zA-Z0-9_]*::)*)?([a-zA-Z_][a-zA-Z0-9_]*)\s*\([^)]*\)\s*(?:const)?\s*(?:override)?\s*(?:noexcept)?\s*[{;]'
         
-        for match in re.finditer(func_pattern, content):
+        for match in re.finditer(func_pattern, content, re.MULTILINE):
             return_type = match.group(1).strip()
-            func_name = match.group(2)
+            class_scope = match.group(2) if match.group(2) else ""
+            func_name = match.group(3)
             line_num = content[:match.start()].count('\n') + 1
             
-            # Skip if it looks like a class declaration
-            if return_type.lower() in ['class', 'struct', 'enum']:
+            # Skip keywords that are not valid return types
+            if return_type.lower() in ['class', 'struct', 'enum', 'namespace', 'if', 'else', 'while', 'for', 'switch', 'do', 'try', 'catch']:
                 continue
                 
-            signature = match.group(0)
+            # Skip C++ keywords and control structures
+            if func_name.lower() in ['if', 'else', 'while', 'for', 'switch', 'do', 'try', 'catch', 'return', 'break', 'continue']:
+                continue
+                
+            # Get the actual line content for additional validation
+            line_start = content.rfind('\n', 0, match.start()) + 1
+            line_end = content.find('\n', match.end())
+            if line_end == -1:
+                line_end = len(content)
+            full_line = content[line_start:line_end].strip()
+            
+            # Skip if it's clearly not a function (assignment, control structures, etc.)
+            if any(keyword in full_line.lower() for keyword in ['else if', 'if (', 'while (', 'for (', 'switch (']):
+                continue
+                
+            # Skip variable declarations (has assignment operators)
+            if ('=' in full_line and '{' not in full_line):
+                continue
+            
+            # Check if this appears to be inside a function body (brace counting)
+            preceding_context = content[max(0, match.start() - 2000):match.start()]
+            
+            # Count braces in preceding context
+            brace_level = 0
+            in_function = False
+            
+            # Simple state tracking for function vs class context
+            lines_before = preceding_context.split('\n')
+            for line in lines_before:
+                line = line.strip()
+                if not line or line.startswith('//') or line.startswith('/*'):
+                    continue
+                    
+                # Check for function-like patterns in preceding lines
+                if re.search(r'\w+\s*\([^)]*\)\s*\{', line):
+                    in_function = True
+                    
+                brace_level += line.count('{') - line.count('}')
+            
+            # If we're inside braces (likely function body), skip this match
+            if brace_level > 0 and in_function:
+                continue
+                
+            # Additional validation: ensure this looks like a real function signature
+            signature = match.group(0).strip()
+            
+            # Must have parentheses and valid C++ identifier patterns
+            if not re.search(r'[a-zA-Z_][a-zA-Z0-9_]*\s*\([^)]*\)', signature):
+                continue
             
             element = CodeElement(
                 name=func_name,
@@ -221,7 +271,8 @@ class CppProjectAnalyzer:
                 signature=signature,
                 file_path=str(file_path),
                 line_number=line_num,
-                return_type=return_type
+                return_type=return_type,
+                namespace=class_scope.rstrip('::') if class_scope else ""
             )
             
             self.project_structure.code_elements.append(element)
@@ -323,7 +374,7 @@ Generate professional Doxygen comments for this C++ {element.type}:
 Context: {context}
 File: {element.file_path}
 
-Include appropriate @brief, @param, @return, @throws tags and examples where relevant.
+You are an expert in documenting C++ code and Doxygen best practicesInclude appropriate @brief, @param, @return, @throws tags 
 Make the documentation clear, concise, and professional.
 Return only the Doxygen comment block starting with /** and ending with */.
 """
